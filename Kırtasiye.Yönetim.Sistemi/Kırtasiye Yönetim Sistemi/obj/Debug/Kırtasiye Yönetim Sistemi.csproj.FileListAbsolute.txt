@@ -1,0 +1,15 @@
+C:\Users\Kaann\source\repos\Kırtasiye Yönetim Sistemi\Kırtasiye Yönetim Sistemi\bin\Debug\Kırtasiye Yönetim Sistemi.exe.config
+C:\Users\Kaann\source\repos\Kırtasiye Yönetim Sistemi\Kırtasiye Yönetim Sistemi\bin\Debug\Kırtasiye Yönetim Sistemi.exe
+C:\Users\Kaann\source\repos\Kırtasiye Yönetim Sistemi\Kırtasiye Yönetim Sistemi\bin\Debug\Kırtasiye Yönetim Sistemi.pdb
+C:\Users\Kaann\source\repos\Kırtasiye Yönetim Sistemi\Kırtasiye Yönetim Sistemi\obj\Debug\Kırtasiye Yönetim Sistemi.csproj.AssemblyReference.cache
+C:\Users\Kaann\source\repos\Kırtasiye Yönetim Sistemi\Kırtasiye Yönetim Sistemi\obj\Debug\Kırtasiye Yönetim Sistemi.csproj.CoreCompileInputs.cache
+C:\Users\Kaann\source\repos\Kırtasiye Yönetim Sistemi\Kırtasiye Yönetim Sistemi\obj\Debug\Kırtasiye Yönetim Sistemi.exe
+C:\Users\Kaann\source\repos\Kırtasiye Yönetim Sistemi\Kırtasiye Yönetim Sistemi\obj\Debug\Kırtasiye Yönetim Sistemi.pdb
+C:\Users\Kaan\OneDrive\Masaüstü\Kırtasiye Yönetim Sistemi\Kırtasiye Yönetim Sistemi\Kırtasiye Yönetim Sistemi\bin\Debug\Kırtasiye Yönetim Sistemi.exe.config
+C:\Users\Kaan\OneDrive\Masaüstü\Kırtasiye Yönetim Sistemi\Kırtasiye Yönetim Sistemi\Kırtasiye Yönetim Sistemi\bin\Debug\Kırtasiye Yönetim Sistemi.exe
+C:\Users\Kaan\OneDrive\Masaüstü\Kırtasiye Yönetim Sistemi\Kırtasiye Yönetim Sistemi\Kırtasiye Yönetim Sistemi\bin\Debug\Kırtasiye Yönetim Sistemi.pdb
+C:\Users\Kaan\OneDrive\Masaüstü\Kırtasiye Yönetim Sistemi\Kırtasiye Yönetim Sistemi\Kırtasiye Yönetim Sistemi\obj\Debug\Kırtasiye Yönetim Sistemi.csproj.AssemblyReference.cache
+C:\Users\Kaan\OneDrive\Masaüstü\Kırtasiye Yönetim Sistemi\Kırtasiye Yönetim Sistemi\Kırtasiye Yönetim Sistemi\obj\Debug\Kırtasiye Yönetim Sistemi.csproj.SuggestedBindingRedirects.cache
+C:\Users\Kaan\OneDrive\Masaüstü\Kırtasiye Yönetim Sistemi\Kırtasiye Yönetim Sistemi\Kırtasiye Yönetim Sistemi\obj\Debug\Kırtasiye Yönetim Sistemi.csproj.CoreCompileInputs.cache
+C:\Users\Kaan\OneDrive\Masaüstü\Kırtasiye Yönetim Sistemi\Kırtasiye Yönetim Sistemi\Kırtasiye Yönetim Sistemi\obj\Debug\Kırtasiye Yönetim Sistemi.exe
+C:\Users\Kaan\OneDrive\Masaüstü\Kırtasiye Yönetim Sistemi\Kırtasiye Yönetim Sistemi\Kırtasiye Yönetim Sistemi\obj\Debug\Kırtasiye Yönetim Sistemi.pdb

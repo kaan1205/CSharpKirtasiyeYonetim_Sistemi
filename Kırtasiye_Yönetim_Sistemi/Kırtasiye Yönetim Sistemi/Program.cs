@@ -150,16 +150,52 @@ public class ElektronikUrun : Urun, IElektronikUrun
     public override void UrunSil(UrunYonetimSistemi ur)
     {
         Console.Clear();
+
+        if (ur.Elektronikler.Count == 0) // eğer elektronik ürün listesi boş ise uyarı ver
+        {
+            Console.Clear();
+            Console.WriteLine("Elektronik ürün listesi boş!");
+        }
+        else
+        {
+            Console.Clear();
+            Console.WriteLine("Elektronik Ürün Listesi ");
+            var siraliElektronikler = ur.Elektronikler.OrderBy(e => e.UrunID).ToList(); // burada ID ye göre küçükten büyüğe sıralama işlemi yapılıyor.
+
+            foreach (ElektronikUrun e in siraliElektronikler)
+            {
+                Console.WriteLine($"ID:{e.UrunID}  Ad:{e.Ad}  Marka:{e.Marka}  Stok:{e.Stok}  Fiyat:{e.Fiyat} Garanti Süresi:{e.GarantiSuresi}" + " ay");
+            }
+        }
         Console.WriteLine("Silmek istenen ürünün ID'sini giriniz");
         int UrunId = intkontrol(); // alınan değer int mi kontrolü
         ElektronikUrun elektronik = ur.Elektronikler.FirstOrDefault(u => u.UrunID == UrunId) as ElektronikUrun;
         if (elektronik != null)
         {
-            ur.Elektronikler.Remove(elektronik); // Ürün silme işlemi
-            Console.WriteLine($"{elektronik.UrunID} ID li elektronik ürün başarıyla silindi..");
-            Console.WriteLine("Lütfen bekleyin yönlendiriliyorsunuz...");
-            System.Threading.Thread.Sleep(2000);
-            Console.Clear();
+            Console.WriteLine("Silmek istediğinizden emin misiniz? (1-Evet\t2-Hayır)");
+            string degisken = Console.ReadLine();
+            switch (degisken)
+            {
+                case "1":
+                    ur.Elektronikler.Remove(elektronik); // Ürün silme işlemi
+                    Console.WriteLine($"{elektronik.UrunID} ID li elektronik ürün başarıyla silindi..");
+                    Console.WriteLine("Lütfen bekleyin yönlendiriliyorsunuz...");
+                    System.Threading.Thread.Sleep(2000);
+                    Console.Clear();
+                    break;
+                case "2":
+                    Console.WriteLine("Ürün silinmekten vazgeçildi!");
+                    Console.WriteLine("Lütfen bekleyin yönlendiriliyorsunuz...");
+                    System.Threading.Thread.Sleep(2000);
+                    Console.Clear();
+                    break;
+                default:
+                    Console.WriteLine("Lütfen geçerli değer giriniz!");
+                    System.Threading.Thread.Sleep(2000);
+                    Console.Clear();
+                    break;
+            }
+            
         }
         else // eğer girilen ıd ile eşleşen ürün yoksa
         {
@@ -255,6 +291,17 @@ public class ElektronikUrun : Urun, IElektronikUrun
                 int fiyat = Convert.ToInt32(eurun.Fiyat);
                 if (ur.bakiye < fiyat) Console.WriteLine("Yetersiz bakiye!"); // bakiye yeterli değil ise uyarı versin
                 else if (eurun.Stok == 0) Console.WriteLine("Ürünün yeterli stoğu yok! Lütfen yöneticiniz stok eklesin"); // ürün stoğu yoksa uyarı versin
+                else if ( ur.satinalinanelektronikler.Any(u => u.UrunID == urunid))
+                   {
+                    Console.WriteLine("Ürün başarıyla satın alındı!");
+                    // ürünün stok miktarını düşürüyoruz
+                    eurun.Stok -= 1;
+                    //satın alınan miktarı arttırıyoruz
+                    eurun.miktar += 1;
+                    //bakiye güncellemesi yapıyoruz
+                    ur.bakiye = ur.bakiye - fiyat;
+                    
+                }
                 else
                 {
                     Console.WriteLine("Ürün başarıyla satın alındı!");
@@ -269,6 +316,13 @@ public class ElektronikUrun : Urun, IElektronikUrun
                 Console.WriteLine("Devam etmek için bir tuşa basınız..");
                 Console.ReadKey();
             }
+            else {
+
+                Console.WriteLine("Ürün bulunamadı! ");
+                Console.WriteLine("Devam etmek için bir tuşa basınız..");
+                Console.ReadKey();
+            }
+           
 
 
 
@@ -297,7 +351,7 @@ public class ElektronikUrun : Urun, IElektronikUrun
 
             foreach (ElektronikUrun e in siraliElektronikler)
             {
-                Console.WriteLine($"ID:{e.UrunID}  Ad:{e.Ad}  Marka:{e.Marka}  Miktar:{e.miktar}  Fiyat:{e.Fiyat} Garanti Süresi:{e.GarantiSuresi}" + " ay");
+                Console.WriteLine($"ID:{e.UrunID}  Ad:{e.Ad}  Marka:{e.Marka}  Miktar:{e.miktar} Fiyat:{e.Fiyat} Garanti Süresi:{e.GarantiSuresi}" + " ay");
             }
 
             Console.WriteLine("Devam etmek için bir tuşa basınız...");
@@ -407,15 +461,15 @@ public class ElektronikUrun : Urun, IElektronikUrun
         {
             Console.Clear();
             Console.WriteLine("Elektronik Ürün Listesi");
-            var siraliElektronikler = ur.Elektronikler.OrderBy(e => e.UrunID).ToList();
+            var siraliElektronikler = ur.Elektronikler.OrderBy(e => e.UrunID).ToList(); // Listeyi ID'ye göre sıralama işlemi
 
             foreach (ElektronikUrun e in siraliElektronikler)
             {
-                if (e.yorumkk == 1)
+                if (e.yorumkk == 1) // yorum kontrol karakterini kontrol ediyoruz
                     Console.WriteLine($"ID:{e.UrunID}  Ad:{e.Ad} Fiyat:{e.Fiyat}   Yapılan Yorum:{e.Yorum}");
                 else
                 {
-                    Console.WriteLine($"ID:{e.UrunID}  Ad:{e.Ad} Fiyat:{e.Fiyat} Bu ürüne yapılan bir yorum bulunamadı!");
+                    Console.WriteLine($"ID:{e.UrunID}  Ad:{e.Ad} Bu ürüne yapılan bir yorum bulunamadı!");
                 }
             }
         }
@@ -483,16 +537,57 @@ public class KitapUrun : Urun, IKitap
     public override void UrunSil(UrunYonetimSistemi ur)
     {
         Console.Clear();
+        if (ur.Kitaplar.Count == 0)
+        {
+            Console.Clear();
+            Console.WriteLine("Kitap listesi boş!");
+
+        }
+        else
+        {
+            Console.Clear();
+            Console.WriteLine("Kitap Listesi");
+            // Kitapları ID'ye göre sırala ve öyle yazdır
+            var siraliKitaplar = ur.Kitaplar.OrderBy(e => e.UrunID).ToList();
+
+            foreach (KitapUrun e in siraliKitaplar)
+            {
+                Console.WriteLine($"ID:{e.UrunID}  Ad:{e.Ad}  Stok:{e.Stok}  Fiyat:{e.Fiyat} Sayfa Sayısı:{e.SayfaSayisi} sayfa ");
+            }
+        }
+
         Console.WriteLine("Silmek istenen ürünün ID'sini giriniz");
         int UrunId = intkontrol();
+        
         KitapUrun kitap = ur.Kitaplar.FirstOrDefault(u => u.UrunID == UrunId) as KitapUrun;
+
+
         if (kitap != null) // eğer girilen ID ile eşleşen ürün varsa aşşağıdaki işlemler yapılıcak
         {
-            ur.Kitaplar.Remove(kitap);
-            Console.WriteLine($"{kitap.UrunID} ID li kitap başarıyla silindi..");
-            Console.WriteLine("Lütfen bekleyin yönlendiriliyorsunuz...");
-            System.Threading.Thread.Sleep(2000);
-            Console.Clear();
+            Console.WriteLine("Silmek istediğinizden emin misiniz? (1-Evet\t2-Hayır)");
+            string degisken = Console.ReadLine();
+            switch (degisken)
+            {
+                case "1":
+                    ur.Kitaplar.Remove(kitap); // Ürün silme işlemi
+                    Console.WriteLine($"{kitap.UrunID} ID li kitap başarıyla silindi..");
+                    Console.WriteLine("Lütfen bekleyin yönlendiriliyorsunuz...");
+                    System.Threading.Thread.Sleep(2000);
+                    Console.Clear();
+                    break;
+                case "2":
+                    Console.WriteLine("Ürün silinmekten vazgeçildi!");
+                    Console.WriteLine("Lütfen bekleyin yönlendiriliyorsunuz...");
+                    System.Threading.Thread.Sleep(2000);
+                    Console.Clear();
+                    break;
+                default:
+                    Console.WriteLine("Lütfen geçerli değer giriniz!");
+                    System.Threading.Thread.Sleep(2000);
+                    Console.Clear();
+                    break;
+            }
+            
         }
         else
         {
@@ -534,6 +629,7 @@ public class KitapUrun : Urun, IKitap
             }
         } while (secim2 != 3);
     }
+    //satın alma metodunu override ediyoruz ve satın alma işlemini gerçekleştiriyoruz
     public override void SatınAlma(UrunYonetimSistemi ur)
     {
         if (ur.Kitaplar.Count == 0)
@@ -546,13 +642,12 @@ public class KitapUrun : Urun, IKitap
         else
         {
             Console.Clear();
-            Console.WriteLine("Kitap Listesi");
-            // Kitapları ID'ye göre sırala ve öyle yazdır
-            var siraliKitaplar = ur.Kitaplar.OrderBy(e => e.UrunID).ToList();
-
+            Console.WriteLine("Kitap Listesi ");
+            var siraliKitaplar = ur.Kitaplar.OrderBy(e => e.UrunID).ToList(); // elektronik ürün listesini ID'ye göre sırala
+            
             foreach (KitapUrun e in siraliKitaplar)
             {
-                Console.WriteLine($"ID:{e.UrunID}  Ad:{e.Ad}  Stok:{e.Stok}  Fiyat:{e.Fiyat} ");
+                Console.WriteLine($"ID:{e.UrunID}  Ad:{e.Ad}  Stok:{e.Stok}  Fiyat:{e.Fiyat} Sayfa Sayısı:{e.SayfaSayisi} sayfa  Yazar:{e.Yazar} ");
             }
 
             Console.WriteLine("Satın almak istediğiniz ürünün ID'sini giriniz..");
@@ -564,6 +659,14 @@ public class KitapUrun : Urun, IKitap
                 int fiyat = Convert.ToInt32(kitap.Fiyat);
                 if (ur.bakiye < fiyat) Console.WriteLine("Yetersiz bakiye!");
                 else if (kitap.Stok == 0) Console.WriteLine("Ürünün yeterli stoğu yok! Lütfen yöneticiniz stok eklesin"); // ürün stoğu yoksa uyarı versin
+                else if(ur.satinalinankitaplar.Any(u => u.UrunID == urunid))
+                {
+                    Console.WriteLine("Ürün başarıyla satın alındı!");
+                    kitap.Stok -= 1;
+                    kitap.miktar += 1;
+                    ur.bakiye = ur.bakiye - fiyat;
+                    
+                }
                 else
                 {
                     Console.WriteLine("Ürün başarıyla satın alındı!");
@@ -575,12 +678,20 @@ public class KitapUrun : Urun, IKitap
                 Console.WriteLine("Devam etmek için bir tuşa basınız..");
                 Console.ReadKey();
             }
+            else
+            {
+
+                Console.WriteLine("Ürün bulunamadı! ");
+                Console.WriteLine("Devam etmek için bir tuşa basınız..");
+                Console.ReadKey();
+            }
 
 
 
 
         }
     }
+    // satın alınanlar metodunu override ediyoruz ve satın alınan ürünleri görüntüleme metodunu yazıyoruz
     public override void satinalinanlar(UrunYonetimSistemi ur)
     {
 
@@ -595,11 +706,11 @@ public class KitapUrun : Urun, IKitap
         {
             Console.Clear();
             Console.WriteLine("Satın alınan kitap Listesi ");
-            var siraliKitaplar = ur.satinalinankitaplar.OrderBy(e => e.UrunID).ToList();
+            var siraliKitaplar = ur.satinalinankitaplar.OrderBy(e => e.UrunID).ToList(); // elektronik ürün listesini ID'ye göre sırala
 
             foreach (KitapUrun e in siraliKitaplar)
             {
-                Console.WriteLine($"ID:{e.UrunID}  Ad:{e.Ad}  Miktar:{e.miktar}  Fiyat:{e.Fiyat} ");
+                Console.WriteLine($"ID:{e.UrunID}  Ad:{e.Ad}  Fiyat:{e.Fiyat} Sayfa Sayısı:{e.SayfaSayisi} sayfa  Yazar:{e.Yazar} ");
             }
 
             Console.WriteLine("Devam etmek için bir tuşa basınız...");
@@ -607,6 +718,7 @@ public class KitapUrun : Urun, IKitap
             Console.Clear();
         }
     }
+    // Ürün yorumlama metodunu override ediyoruz ve ürün yorumlama işlemini gerçekleştiriyoruz.
     public override void UrunYorumla(UrunYonetimSistemi ur)
     {
         //Eğer kitap listesinin sayısı 0 ise kitap listesi boş uyarısı.
@@ -618,15 +730,26 @@ public class KitapUrun : Urun, IKitap
         }
         else
         {
-        YorumID:
+        YorumID: // go to kullanacağımız için kullandığım isim
             Console.Clear();
             Console.WriteLine("Kitap Listesi");
             // Kitapları ID'ye göre sırala ve öyle yazdır
-            var siraliKitaplar = ur.satinalinankitaplar.OrderBy(e => e.UrunID).ToList();
+            var grupluKitaplar = ur.satinalinankitaplar // Üründen 2 tane satın alındıysa alt alta bir sürü değil de tek bir satırda göstermesini sağlayan blok
+               .GroupBy(e => new { e.UrunID, e.Ad, e.Fiyat, e.Stok })
+               .Select(g => new {
+                   UrunID = g.Key.UrunID,
+                   Ad = g.Key.Ad,
+                   Miktar = g.Sum(e => e.miktar),
+                   Fiyat = g.Key.Fiyat,
+                   Stok = g.Key.Stok,
 
-            foreach (KitapUrun e in siraliKitaplar)
+               })
+               .OrderBy(e => e.UrunID)
+               .ToList();
+
+            foreach (var grupluKitap in grupluKitaplar)
             {
-                Console.WriteLine($"ID:{e.UrunID}  Ad:{e.Ad}  Stok:{e.Stok}  Fiyat:{e.Fiyat} ");
+                Console.WriteLine($"ID:{grupluKitap.UrunID}  Ad:{grupluKitap.Ad}  Miktar:{grupluKitap.Miktar}  Fiyat:{grupluKitap.Fiyat} ");
             }
             Console.WriteLine("Yorum yapmak istediğiniz ürünün ID'sini giriniz");
             int urunid = intkontrol();
@@ -647,7 +770,7 @@ public class KitapUrun : Urun, IKitap
                     string smtpUsername = "kozdemir.usa@gmail.com"; // E-posta adresiniz
                     string smtpPassword = "ucuweptvmkxzgoeh"; // E-posta şifreniz
 
-                    // Gönderilecek e-posta bilgileri
+                    // Gönderilecek e-posta bilgileri isteğe göre kullanıcıdan da alınabilir
                     string toEmailAddress = "kozdemir.usa@gmail.com";
                     string subject = "Ürün yorumu";
                     string body = $"{kitap.UrunID} ID'li kitaba gelen yorum:{kitap.Yorum} ";
@@ -688,6 +811,7 @@ public class KitapUrun : Urun, IKitap
         Console.WriteLine("Devam etmek için bir tuşa basınız..");
         Console.ReadKey();
     }
+    // Ürün yorumları metodunu override ediyoruz ve ürün yorumlarını görüntüleyen metodu yazıyoruz.
     public override void UrunYorumlari(UrunYonetimSistemi ur)
     {
         if (ur.Kitaplar.Count == 0)
@@ -850,6 +974,7 @@ public class UrunYonetimSistemi
             System.Threading.Thread.Sleep(2500);
         }
     }
+    // Kitap stoklarının güncelleneceği metod
     public void KitapStokGuncelle()
     {
         Console.Clear();
@@ -881,6 +1006,7 @@ public class UrunYonetimSistemi
             System.Threading.Thread.Sleep(2000);
         }
     }
+    // Elektronik ürünlerin stoklarının güncelleneceği metod
     public void ElektronikStokGuncelle()
     {
         Console.Clear();
@@ -936,6 +1062,7 @@ internal class Program
 
                 do  //Bu do-While döngüsünü eğer kullanıcı adı şifre hatalı ise tekrar kullanıcı adı ve şifre istemesi için kullanıyoruz.
                 {
+                    Console.WriteLine("Default Kullanıcı adı: yusufkaan     şifre:1234");
                     Console.WriteLine("Kullanıcı Adı:");
                     string kullaniciAdi = Console.ReadLine();
 
@@ -1403,6 +1530,7 @@ internal class Program
 
         } while (!gecerliStok);
     }
+    
 
     //Elektronik ürünün bilgilerinin girileceği yer
     static void ElektronikBilgileriniGir(ElektronikUrun urun)
